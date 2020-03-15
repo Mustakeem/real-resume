@@ -51,11 +51,9 @@ const SignupForm = () => {
             }}
         >
             <Step title='Create account'>
-
                 <div className={css({ ...theme.typography.font200 })}>
                     Fill out your details below
                  </div>
-
                 <FormControl
                     label='Email address'
                 >
@@ -81,22 +79,18 @@ const SignupForm = () => {
                         type='password'
                     />
                 </FormControl>
-
                 <SpacedButton onClick={() => setCurrent(0)} disabled>
                     Previous
                 </SpacedButton>
                 <SpacedButton onClick={() => setCurrent(1)}>
                     Next
                 </SpacedButton>
-
             </Step>
 
             <Step title='Personal details'>
-
                 <div className={css({ ...theme.typography.font200 })}>
                     It helps in your resume
                 </div>
-
                 <FormControl
                     label='First Name'
                 >
@@ -113,21 +107,17 @@ const SignupForm = () => {
                         type='text'
                     />
                 </FormControl>
-
                 <SpacedButton onClick={() => setCurrent(0)}>
                     Previous
                 </SpacedButton>
                 <SpacedButton onClick={() => setCurrent(2)}>
                     Next
                 </SpacedButton>
-
             </Step>
-
             <Step title="Contact Info">
                 <div className={css({ ...theme.typography.font300 })}>
                     Almost done..
                 </div>
-                
                 <FormControl
                     label='Phone number'
                 >
@@ -142,7 +132,6 @@ const SignupForm = () => {
                         }}
                     />
                 </FormControl>
-
                 <SpacedButton onClick={() => setCurrent(1)}>
                     Previous
                  </SpacedButton>
