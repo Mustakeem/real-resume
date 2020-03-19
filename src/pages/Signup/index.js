@@ -4,7 +4,6 @@ import { useStyletron } from 'baseui';
 
 import SignupForm from '../../components/SignupForm';
 
-
 const Signup = () => {
     return (
         <LayoutWrapper>

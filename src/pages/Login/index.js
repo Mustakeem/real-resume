@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import { useStyletron } from 'baseui';
 import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
@@ -7,7 +7,7 @@ import { H4 } from 'baseui/typography'
 
 import LoginForm from '../../components/LoginForm';
 import Logo from '../../assets/Logo';
-import { StyledLink } from "baseui/link";
+import { StyledLink } from 'baseui/link';
 import { Card, StyledBody } from 'baseui/card';
 
 const itemProps = {
@@ -23,7 +23,7 @@ const Login = () => {
         <LayoutWrapper>
             <FlexGrid
                 flexGridColumnCount={[1]}
-                flexGridRowGap="scale800"
+                flexGridRowGap='scale800'
             >
                 <FlexGridItem {...itemProps}>
                     <Logo />

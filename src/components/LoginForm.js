@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { connect, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
-import * as EmailValidator from 'email-validator';
-import { loginUser } from "../store/actions";
+import { connect, useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import {validate as validateEmail} from 'email-validator';
+import { loginUser } from '../store/actions';
 
 import { useStyletron } from 'baseui'
-import { Card, StyledBody, StyledAction } from "baseui/card";
+import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { FormControl } from 'baseui/form-control';
 import { Alert } from 'baseui/icon';
 import { Button } from 'baseui/button';
@@ -23,7 +23,7 @@ function Negative() {
                 color: theme.colors.negative400,
             })}
         >
-            <Alert size="18px" />
+            <Alert size='18px' />
         </div>
     );
 }
@@ -38,7 +38,7 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
     const [isVisited, setIsVisited] = useState(false);
     const shouldShowError = !isValid && isVisited;
 
-    const state = { email: "", password: "" };
+    const state = { email: '', password: '' };
 
     const handleSubmit = (props) => {
         const { email, password } = state;
@@ -46,7 +46,7 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
     }
 
     const handleEmailChange = ({ target }) => {
-        EmailValidator.validate(target.value);
+        setIsValid(validateEmail(value));
         state.email = target.value;
     };
 
@@ -56,7 +56,7 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
 
 
     if (isAuthenticated) {
-        return <Redirect to="/" />;
+        return <Redirect to='/' />;
     } else {
         return (
             <Card
@@ -75,18 +75,18 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
                         label='Email address'
                         error={
                             shouldShowError
-                              ? 'Please input a valid email address'
-                              : null
-                          }
+                                ? 'Please input a valid email address'
+                                : null
+                        }
                     >
                         <Input
                             placeholder='Enter your email'
                             id='email'
                             onChange={handleEmailChange}
                             // value={value}
-                            onBlur={() => setIsVisited(true)}
+                            onBlur={() => setIsVisited(false)}
                             overrides={shouldShowError ? { After: Negative } : {}}
-                            type="email"
+                            type='email'
                             required
                         />
                     </FormControl>
@@ -98,6 +98,7 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
                             placeholder='Enter your password'
                             id='password'
                             type='password'
+                            onBlur={() => setIsVisited(false)}
                             error={shouldShowError}
                             onChange={handlePasswordChange}
                             required
@@ -107,7 +108,7 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
                         <div
                             className={css({
                                 display: 'flex',
-                                alignItems:'center',
+                                alignItems: 'center',
                                 justifyContent: 'center',
                                 paddingRight: theme.sizing.scale500,
                                 color: theme.colors.negative400,
@@ -122,7 +123,7 @@ const LoginForm = ({ isAuthenticated, loginError }) => {
                         type='submit'
                         onClick={handleSubmit}
                         overrides={{
-                            BaseButton: { style: { width: "100%" } }
+                            BaseButton: { style: { width: '100%' } }
                         }}
 
                     >

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './constants/base.scss';
 
-import ProtectedRoute from "./components/ProtectedRoute";
-import Home from "./components/Home";
+import ProtectedRoute from './components/ProtectedRoute';
+import Home from './components/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
@@ -15,13 +15,13 @@ function App(props) {
     <Switch>
       <ProtectedRoute
         exact
-        path="/"
+        path='/'
         component={Home}
         isAuthenticated={isAuthenticated}
         isVerifying={isVerifying}
       />
-      <Route path="/login" component={Login} />
-      <Route path="/Signup" component={Signup} />
+      <Route path='/login' component={Login} />
+      <Route path='/signup' component={Signup} />
     </Switch>
   );
 }
