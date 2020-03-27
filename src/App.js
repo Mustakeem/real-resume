@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 import './constants/base.scss';
 
 import ProtectedRoute from './components/ProtectedRoute';
-import Home from './components/Home';
+import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 
-function App(props) {
-  const { isAuthenticated, isVerifying } = props;
+function App({ isAuthenticated, isVerifying }) {
+
   return (
     <Switch>
       <ProtectedRoute
         exact
         path='/'
-        component={Home}
+        component={Dashboard}
         isAuthenticated={isAuthenticated}
         isVerifying={isVerifying}
       />

@@ -1,32 +1,16 @@
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+
 import {validate as validateEmail} from 'email-validator';
 import { loginUser } from '../store/actions';
+import { Negative } from './NegativeInput';
 
-import { useStyletron } from 'baseui'
+import { useStyletron } from 'baseui';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
 import { FormControl } from 'baseui/form-control';
-import { Alert } from 'baseui/icon';
 import { Button } from 'baseui/button';
 import { Input } from 'baseui/input';
-
-
-function Negative() {
-    const [css, theme] = useStyletron();
-    return (
-        <div
-            className={css({
-                display: 'flex',
-                alignItems: 'center',
-                paddingRight: theme.sizing.scale500,
-                color: theme.colors.negative400,
-            })}
-        >
-            <Alert size='18px' />
-        </div>
-    );
-}
 
 
 const LoginForm = ({ isAuthenticated, loginError }) => {

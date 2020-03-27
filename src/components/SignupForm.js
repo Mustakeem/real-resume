@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { connect, useDispatch } from 'react-redux';
 import { signupUser } from '../store/actions';
+import { Negative } from './NegativeInput';
 
 import { validate as validateEmail } from 'email-validator';
 
@@ -12,7 +13,6 @@ import { ProgressSteps, Step } from 'baseui/progress-steps';
 import { FormControl } from 'baseui/form-control';
 import { Button } from 'baseui/button';
 import { Input } from 'baseui/input';
-import { Alert } from 'baseui/icon';
 
 function SpacedButton(props) {
     return (
@@ -28,22 +28,6 @@ function SpacedButton(props) {
                 },
             }}
         />
-    );
-}
-
-function Negative() {
-    const [css, theme] = useStyletron();
-    return (
-        <div
-            className={css({
-                display: 'flex',
-                alignItems: 'center',
-                paddingRight: theme.sizing.scale500,
-                color: theme.colors.negative400,
-            })}
-        >
-            <Alert size='18px' />
-        </div>
     );
 }
 

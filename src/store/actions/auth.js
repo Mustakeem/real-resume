@@ -110,12 +110,13 @@ export const signupUser = (email,password,firstName,lastName,phoneNumber) => dis
           .auth()
           .createUserWithEmailAndPassword(email, password);
   })
-  .then(() => {
+  .then((data) => {
       const userCredentials = {
             email: email,
             firstName: firstName,
             lastName: lastName,
-            phoneNumber: phoneNumber
+            phoneNumber: phoneNumber,
+            userId: data.user.uid
       };
       return db.doc(`/users/${email}`).set(userCredentials);
   }) 
