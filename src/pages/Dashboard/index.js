@@ -53,9 +53,19 @@ const Dashboard = () => {
         >
           <SideNav />
         </FlexGridItem>
-              <Route path='/overview'>
-                  <Overview/>
-              </Route>
+        <FlexGridItem
+          {...itemProps}
+        >
+          <Switch>
+            <Route path='/overview'>
+              <Overview />
+            </Route>
+            <Route path='/basicInfo'>
+              <BasicInfo />
+            </Route>
+          </Switch>
+
+        </FlexGridItem>
 
       </FlexGrid>
     </div>

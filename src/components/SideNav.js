@@ -13,7 +13,7 @@ const SideNav = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const [activeItemId, setActiveItemId] = useState('/overview');
+  // const [activeItemId, setActiveItemId] = useState('/overview');
   return (
     <ul
       className={css({
@@ -31,7 +31,7 @@ const SideNav = () => {
           }
         ]}
         activeItemId={location.pathname}
-        onChange={({event, item}) => {
+        onChange={({ event,item}) => {
           // prevent page reload
           event.preventDefault();
           history.push(item.itemId);
@@ -77,10 +77,12 @@ const SideNav = () => {
             ]
           }
         ]}
-        activeItemId={activeItemId}
-        onChange={({ item }) =>
-          setActiveItemId(item.itemId)
-        }
+        activeItemId={location.pathname}
+        onChange={({ event,item}) => {
+          // prevent page reload
+          event.preventDefault();
+          history.push(item.itemId);
+        }}
         overrides={{
           NavItem: {
             style: ({ $theme }) => {

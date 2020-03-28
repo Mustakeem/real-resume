@@ -13,15 +13,14 @@ function App({ isAuthenticated, isVerifying }) {
 
   return (
     <Switch>
+      <Route path='/login' component={Login} />
+      <Route path='/signup' component={Signup} />
       <ProtectedRoute
-        exact
         path='/'
         component={Dashboard}
         isAuthenticated={isAuthenticated}
         isVerifying={isVerifying}
       />
-      <Route path='/login' component={Login} />
-      <Route path='/signup' component={Signup} />
     </Switch>
   );
 }
