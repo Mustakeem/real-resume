@@ -18,9 +18,9 @@ const SideNav = () => {
     <ul
       className={css({
         width: '14vw',
+        marginTop: '11vh',
         paddingLeft: 0,
         paddingRight: 0,
-        position: 'fixed'
       })}
     >
       <Navigation
@@ -42,7 +42,9 @@ const SideNav = () => {
             style: ({ $theme }) => {
               return {
                 fontWeight: 'bold',
-                marginTop: '6px'
+                ':hover':{
+                  color: $theme.colors.mono800
+                }
               };
             }
           }
@@ -71,8 +73,8 @@ const SideNav = () => {
                 itemId: '/education',
               },
               {
-                title: 'Portfolio',
-                itemId: '/portfolio',
+                title: 'Projects',
+                itemId: '/projects',
               },
             ]
           }
@@ -88,7 +90,10 @@ const SideNav = () => {
             style: ({ $theme }) => {
               return {
                 fontWeight: 'bold',
-                marginTop: '6px'
+                marginTop: '6px',
+                ':hover':{
+                  color: $theme.colors.mono800
+                }
               };
             }
           }

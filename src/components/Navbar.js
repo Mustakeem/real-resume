@@ -20,6 +20,10 @@ const Navbar = () => {
           style: ({ $theme }) => {
             return {
               height: '10vh',
+              position:'fixed',
+              width: '100vw',
+              zIndex: '100',
+              backgroundColor: $theme.colors.mono100
             };
           }
         }

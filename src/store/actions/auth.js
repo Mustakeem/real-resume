@@ -1,4 +1,4 @@
-import { myFirebase,db } from '../../firebase/fbConfig';
+import { myFirebase, db } from '../../firebase/fbConfig';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -101,32 +101,28 @@ export const verifyAuth = () => dispatch => {
     });
 };
 
-export const signupUser = (email,password,firstName,lastName,phoneNumber) => dispatch =>{
+export const signupUser = (email, password, firstName, lastName, phoneNumber) => dispatch => {
   console.log(email);
-  db.collection(`/users/`)
-  .add({email})
-  .then((doc) => {
-      return myFirebase
-          .auth()
-          .createUserWithEmailAndPassword(email, password);
-  })
-  .then((data) => {
+  myFirebase
+  .auth()
+  .createUserWithEmailAndPassword(email, password)
+    .then((data) => {
       const userCredentials = {
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
-            userId: data.user.uid
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        userId: data.user.uid
       };
-      return db.doc(`/users/${email}`).set(userCredentials);
-  }) 
-  .then(() => {
-    dispatch(loginUser(email,password));
-  })
+      return db.collection('users').doc(data.user.uid).set(userCredentials);
+    })
+    .then(() => {
+      dispatch(loginUser(email, password));
+    })
 
-  .catch(error => {
-    console.log(error);
-    dispatch(loginError());
-  });
+    .catch(error => {
+      console.log(error);
+      dispatch(loginError());
+    });
 
 };
