@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 
+import { connect, useDispatch } from 'react-redux';
+import { createEducation, showEducation } from '../store/actions';
+
 import { useStyletron } from 'baseui';
+import { H1 } from 'baseui/typography';
 import { Datepicker, formatDate } from 'baseui/datepicker';
 import { Plus, ArrowRight } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
@@ -42,8 +46,10 @@ const FormWrapper = ({ children }) => {
 };
 
 
-const Education = () => {
+const Education = ({ dataItems }) => {
     const [css, theme] = useStyletron();
+
+    const dispatch = useDispatch();
 
     const [isValid, setIsValid] = useState(false);
     const [isVisited, setIsVisited] = useState(false);
@@ -56,20 +62,15 @@ const Education = () => {
     const [isDisplay, setDisplay] = useState(false);
 
     //👉 set inputs
-    const [institute, setInstitute] = useState('Something');
-    const [certificateTitle, setCertificateTitle] = useState('something');
-    const [majorCategory, setMajorCategory] = useState('something');
+    const [institute, setInstitute] = useState('');
+    const [certificateTitle, setCertificateTitle] = useState('');
+    const [majorCategory, setMajorCategory] = useState('');
     const [GPA, setGPA] = useState('');
     const [location, setLocation] = useState('');
     const [link, setLink] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [checked, setChecked] = useState(false);
-
-    const handleDisplay = () => {
-        setOpen(false);
-        setDisplay(true);
-    }
+    const [currentlyPursuing, setCurrentlyPursuing] = useState(false);
 
     const state = {
         institute: institute,
@@ -79,7 +80,35 @@ const Education = () => {
         link: link,
         location: location,
         startDate: startDate,
-        endDate: endDate
+        endDate: endDate,
+        currentlyPursuing: currentlyPursuing
+    }
+
+    const handleDisplay = () => {
+        const {
+            institute,
+            certificateTitle,
+            majorCategory,
+            GPA,
+            location,
+            link,
+            startDate,
+            endDate,
+            currentlyPursuing
+        } = state;
+        dispatch(createEducation(
+            institute,
+            certificateTitle,
+            majorCategory,
+            GPA,
+            location,
+            link,
+            startDate,
+            endDate,
+            currentlyPursuing
+        ));
+        setOpen(false);
+        setDisplay(true);
     }
 
     return (
@@ -184,8 +213,8 @@ const Education = () => {
                         </FormControl>
                         <FormControl>
                             <Checkbox
-                                checked={checked}
-                                onChange={e => setChecked(e.target.checked)}
+                                checked={currentlyPursuing}
+                                onChange={e => setCurrentlyPursuing(e.target.checked)}
                                 labelPlacement={LABEL_PLACEMENT.right}
                             >
                                 Currently pursuing
@@ -218,7 +247,7 @@ const Education = () => {
                                 <ArrowRight size={24} />
                             </div>
 
-                            {!checked && (
+                            {!currentlyPursuing && (
                                 <div
                                     className={css({
                                         width: '120px',
@@ -253,12 +282,26 @@ const Education = () => {
 
             {isDisplay && (
                 //👉TODO: Want to hold this component through redux 
-                <FormWrapper>
-                    {state.institute}
-                </FormWrapper>
+                dataItems.map(p => {
+                    return (
+                        <FormWrapper>
+                            <H1> {p.institute}</H1>
+                        </FormWrapper>
+                    )
+                })
             )}
         </div >
     )
 }
 
-export default Education;
+const mapState = state => ({
+    dataItems: state.education.dataItems
+})
+
+const mapDispatch = dispatch => {
+    dispatch(showEducation())
+    return {
+
+    }
+}
+export default connect(mapState, mapDispatch)(Education);

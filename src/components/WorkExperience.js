@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 
+import { connect, useDispatch } from 'react-redux';
+import { createWorkExperience, showWorkExperience } from '../store/actions';
+
 import { useStyletron } from 'baseui';
 import { Datepicker, formatDate } from 'baseui/datepicker';
-import { Plus, ArrowRight } from 'baseui/icon'
+import { H1 } from 'baseui/typography';
+import { Plus, ArrowRight, Delete } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
 import {
     Modal,
@@ -17,6 +21,7 @@ import { Input } from 'baseui/input';
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
 import { Negative } from './NegativeInput';
+import workExperience from '../store/reducers/workExperience';
 
 
 
@@ -41,13 +46,18 @@ const FormWrapper = ({ children }) => {
 
 };
 
+const Something = (props) => {
 
-const WorkExperience = () => {
+};
+
+
+const WorkExperience = ({ dataItems }) => {
+    const dispatch = useDispatch()
     const [css, theme] = useStyletron();
-
     const [isValid, setIsValid] = useState(false);
     const [isVisited, setIsVisited] = useState(false);
     const shouldShowError = !isValid && isVisited;
+
 
     //👉 modal open and close
     const [isOpen, setOpen] = useState(false);
@@ -56,27 +66,30 @@ const WorkExperience = () => {
     const [isDisplay, setDisplay] = useState(false);
 
     //👉 set inputs
-    const [organization, setOrganization] = useState('Something');
-    const [jobTitle, setJobTitle] = useState('something');
-    const [location, setLocation] = useState('something');
+    const [organization, setOrganization] = useState('');
+    const [jobTitle, setJobTitle] = useState('');
+    const [location, setLocation] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [checked, setChecked] = useState(false);
-
-    const handleDisplay = () => {
-        setOpen(false);
-        setDisplay(true);
-
-    }
+    const [isCurrentlyWorking, setCurrentlyWorking] = useState(false);
+    // const [workExperienceId, setWorkExperienceId] = useState(false);
 
     const state = {
         organization: organization,
         jobTitle: jobTitle,
         location: location,
         startDate: startDate,
-        endDate: endDate
+        endDate: endDate,
+        isCurrentlyWorking: isCurrentlyWorking,
     }
 
+
+    const handleDisplay = () => {
+        const { organization, jobTitle, location, startDate, endDate, isCurrentlyWorking } = state;
+        dispatch(createWorkExperience(organization, jobTitle, location, startDate, endDate, isCurrentlyWorking));
+        setOpen(false);
+        setDisplay(true);
+    }
     return (
         <div>
             <FormWrapper>
@@ -146,8 +159,8 @@ const WorkExperience = () => {
                         </FormControl>
                         <FormControl>
                             <Checkbox
-                                checked={checked}
-                                onChange={e => setChecked(e.target.checked)}
+                                checked={isCurrentlyWorking}
+                                onChange={e => setCurrentlyWorking(e.target.checked)}
                                 labelPlacement={LABEL_PLACEMENT.right}
                             >
                                 Currently working
@@ -180,7 +193,7 @@ const WorkExperience = () => {
                                 <ArrowRight size={24} />
                             </div>
 
-                            {!checked && (
+                            {!isCurrentlyWorking && (
                                 <div
                                     className={css({
                                         width: '120px',
@@ -213,14 +226,31 @@ const WorkExperience = () => {
                 </Modal>
             </FormWrapper>
 
-            {isDisplay && (
+            {isDisplay &&
                 //👉TODO: Want to hold this component through redux 
-                <FormWrapper>
-                    {state.organization}
-                </FormWrapper>
-            )}
+                (
+                    dataItems.map(p => {
+                        return (
+                            <FormWrapper>
+                               <H1> {p.organization}</H1>
+                            </FormWrapper>
+                        )
+                    })
+                )
+            }
         </div >
     )
 }
 
-export default WorkExperience;
+const mapState = state => ({
+    dataItems: state.workExperience.dataItems
+})
+
+const mapDispatch = dispatch => {
+    dispatch(showWorkExperience())
+    return {
+
+    }
+}
+export default connect(mapState, mapDispatch)(WorkExperience);
+

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { connect, useDispatch } from 'react-redux';
+
+import { useStyletron } from 'baseui';
 import { Tabs, Tab } from 'baseui/tabs';
 import { FormControl } from 'baseui/form-control';
 import { HeadingMedium, HeadingXXLarge } from 'baseui/typography';
@@ -7,7 +10,8 @@ import { Input } from 'baseui/input';
 import { PhoneInput, COUNTRIES } from 'baseui/phone-input';
 
 import { Negative } from './NegativeInput';
-import { useStyletron } from 'baseui';
+import { personalDetails, socialLinkUpdate } from '../store/actions';
+import { Button } from 'baseui/button';
 
 const FormWrapper = ({ children }) => {
     const [css, theme] = useStyletron();
@@ -30,16 +34,14 @@ const FormWrapper = ({ children }) => {
 };
 
 
-const BasicInfo = () => {
+const BasicInfo = ({ details }) => {
+    const dispatch = useDispatch();
 
     const [isValid, setIsValid] = useState(false);
     const [isVisited, setIsVisited] = useState(false);
     const shouldShowError = !isValid && isVisited;
+
     //👉 set inputs
-    const [email, setEmail] = useState('test@mail.com');
-    const [firstName, setFirstName] = useState('test');
-    const [lastName, setLastName] = useState('test');
-    const [phoneNumber, setPhoneNumber] = useState('8655311078');
     const [linkedinUrl, setLinkedinUrl] = useState('');
     const [githubUrl, setGithubUrl] = useState('');
     const [otherUrl, setOtherUrl] = useState('');
@@ -47,6 +49,16 @@ const BasicInfo = () => {
     const [text, setText] = useState('');
     const [country, setCountry] = useState(COUNTRIES.IN);
 
+    const state={
+        linkedinUrl: linkedinUrl,
+        githubUrl: githubUrl,
+        otherUrl: otherUrl
+    }
+
+    const handleSubmitLinks = ()=>{
+        const {linkedinUrl, githubUrl, otherUrl} = state;
+        dispatch(socialLinkUpdate(linkedinUrl, githubUrl, otherUrl));
+    }
     return (
         <div>
             <FormWrapper>
@@ -56,12 +68,12 @@ const BasicInfo = () => {
                 >
                     <Input
                         placeholder='Enter your email'
-                        value={email}
-                        onChange={(e) => { setEmail(e.target.value) }}
+                        value={details.email}
+                        // onChange={() => { setEmail(details.email) }}
                         onBlur={() => setIsVisited(true)}
-                        overrides={shouldShowError ? { After: Negative } : {}}
+                        // overrides={shouldShowError ? { After: Negative } : {}}
                         type='email'
-                        required
+
                     />
                 </FormControl>
                 <FormControl
@@ -69,11 +81,11 @@ const BasicInfo = () => {
                 >
                     <Input
                         placeholder='Enter your firstname'
-                        value={firstName}
-                        onChange={(e) => { setFirstName(e.target.value) }}
-                        overrides={shouldShowError ? { After: Negative } : {}}
+                        value={details.firstName}
+                        // onChange={(e) => { setFirstName(e.target.value) }}
+                        // overrides={shouldShowError ? { After: Negative } : {}}
                         type='text'
-                        required
+
                     />
                 </FormControl>
                 <FormControl
@@ -81,11 +93,10 @@ const BasicInfo = () => {
                 >
                     <Input
                         placeholder='Enter your lastname'
-                        value={lastName}
-                        onChange={(e) => { setLastName(e.target.value) }}
-                        overrides={shouldShowError ? { After: Negative } : {}}
+                        value={details.lastName}
+                        // onChange={(e) => { setLastName(e.target.value) }}
+                        // overrides={shouldShowError ? { After: Negative } : {}}
                         type='text'
-                        required
                     />
                 </FormControl>
                 <FormControl
@@ -95,16 +106,15 @@ const BasicInfo = () => {
                         text={text}
                         country={country}
                         onBlur={() => setIsVisited(false)}
-                        overrides={shouldShowError ? { After: Negative } : {}}
+                        // overrides={shouldShowError ? { After: Negative } : {}}
                         onTextChange={event => {
                             setText(event.currentTarget.value);
                         }}
                         onCountryChange={(event) => {
                             setCountry(event.option);
                         }}
-                        value={phoneNumber}
-                        onChange={(e) => { setPhoneNumber(e.target.value) }}
-
+                        value={details.phoneNumber}
+                    // onChange={(e) => { setPhoneNumber(e.target.value) }}
                     />
                 </FormControl>
             </FormWrapper>
@@ -147,11 +157,24 @@ const BasicInfo = () => {
                         type='url'
                     />
                 </FormControl>
-
+                <Button
+                    type='submit'
+                    onClick={handleSubmitLinks}
+                >
+                    Save
+                </Button>
             </FormWrapper>
 
         </div>
     )
 }
+const mapState = state => ({
+    details: state.basicInfo
+})
+const mapDispatch = dispatch => {
+    dispatch(personalDetails())
+    return{
 
-export default BasicInfo;
+    }
+}
+export default connect(mapState, mapDispatch)(BasicInfo);

@@ -104,8 +104,8 @@ export const verifyAuth = () => dispatch => {
 export const signupUser = (email, password, firstName, lastName, phoneNumber) => dispatch => {
   console.log(email);
   myFirebase
-  .auth()
-  .createUserWithEmailAndPassword(email, password)
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
     .then((data) => {
       const userCredentials = {
         email: email,
@@ -119,7 +119,6 @@ export const signupUser = (email, password, firstName, lastName, phoneNumber) =>
     .then(() => {
       dispatch(loginUser(email, password));
     })
-
     .catch(error => {
       console.log(error);
       dispatch(loginError());
