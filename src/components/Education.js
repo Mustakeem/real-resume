@@ -13,8 +13,7 @@ import {
     ModalHeader,
     ModalBody,
     ModalFooter,
-    ModalButton,
-    FocusOnce,
+    ModalButton
 } from 'baseui/modal';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
@@ -46,7 +45,7 @@ const FormWrapper = ({ children }) => {
 };
 
 
-const Education = ({ dataItems }) => {
+const Education = ({ shouldDisplay, dataItems }) => {
     const [css, theme] = useStyletron();
 
     const dispatch = useDispatch();
@@ -59,7 +58,7 @@ const Education = ({ dataItems }) => {
     const [isOpen, setOpen] = useState(false);
 
     //👉 render component
-    const [isDisplay, setDisplay] = useState(false);
+    // const [isDisplay, setDisplay] = useState(false);
 
     //👉 set inputs
     const [institute, setInstitute] = useState('');
@@ -108,7 +107,7 @@ const Education = ({ dataItems }) => {
             currentlyPursuing
         ));
         setOpen(false);
-        setDisplay(true);
+        // setDisplay(true);
     }
 
     return (
@@ -127,7 +126,7 @@ const Education = ({ dataItems }) => {
                         Root: {
                             style: ({ $theme }) => {
                                 return {
-                                    zIndex: '200'
+                                    
                                 };
                             }
                         }
@@ -137,7 +136,7 @@ const Education = ({ dataItems }) => {
 
                 >
 
-                    <ModalHeader>Work experience</ModalHeader>
+                    <ModalHeader>Education</ModalHeader>
 
                     <ModalBody >
                         <FormControl
@@ -280,7 +279,7 @@ const Education = ({ dataItems }) => {
                 </Modal>
             </FormWrapper>
 
-            {isDisplay && (
+            {shouldDisplay && (
                 //👉TODO: Want to hold this component through redux 
                 dataItems.map(p => {
                     return (
@@ -295,7 +294,8 @@ const Education = ({ dataItems }) => {
 }
 
 const mapState = state => ({
-    dataItems: state.education.dataItems
+    dataItems: state.education.dataItems,
+    shouldDisplay: state.education.shouldDisplay
 })
 
 const mapDispatch = dispatch => {

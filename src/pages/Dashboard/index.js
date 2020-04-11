@@ -15,6 +15,7 @@ import Overview from '../../components/Overview';
 import BasicInfo from '../../components/BasicInfo';
 import WorkExperience from '../../components/WorkExperience';
 import Education from '../../components/Education';
+import Project from '../../components/Project';
 
 
 const itemProps = {
@@ -73,6 +74,9 @@ const Dashboard = () => {
             </Route>
             <Route path='/education'>
               <Education />
+            </Route>
+            <Route path='/projects'>
+              <Project />
             </Route>
           </Switch>
         </FlexGridItem>

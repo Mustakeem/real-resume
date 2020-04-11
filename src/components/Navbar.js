@@ -22,7 +22,7 @@ const Navbar = () => {
               height: '10vh',
               position:'fixed',
               width: '100vw',
-              zIndex: '100',
+              zIndex: '1',
               backgroundColor: $theme.colors.mono100
             };
           }

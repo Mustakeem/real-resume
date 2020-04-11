@@ -15,6 +15,7 @@ export default (
         case GET_WORK_EXPERIENCE:
             return {
                 ...state,
+                shouldDisplay: true,
                 dataItems: action.dataItems
             };
         case POST_WORK_EXPERIENCE:

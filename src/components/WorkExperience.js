@@ -51,7 +51,7 @@ const Something = (props) => {
 };
 
 
-const WorkExperience = ({ dataItems }) => {
+const WorkExperience = ({ shouldDisplay, dataItems }) => {
     const dispatch = useDispatch()
     const [css, theme] = useStyletron();
     const [isValid, setIsValid] = useState(false);
@@ -63,7 +63,7 @@ const WorkExperience = ({ dataItems }) => {
     const [isOpen, setOpen] = useState(false);
 
     //👉 render component
-    const [isDisplay, setDisplay] = useState(false);
+    // const [isDisplay, setDisplay] = useState(false);
 
     //👉 set inputs
     const [organization, setOrganization] = useState('');
@@ -88,7 +88,7 @@ const WorkExperience = ({ dataItems }) => {
         const { organization, jobTitle, location, startDate, endDate, isCurrentlyWorking } = state;
         dispatch(createWorkExperience(organization, jobTitle, location, startDate, endDate, isCurrentlyWorking));
         setOpen(false);
-        setDisplay(true);
+        // setDisplay(true);
     }
     return (
         <div>
@@ -226,13 +226,15 @@ const WorkExperience = ({ dataItems }) => {
                 </Modal>
             </FormWrapper>
 
-            {isDisplay &&
+            {shouldDisplay &&
                 //👉TODO: Want to hold this component through redux 
                 (
                     dataItems.map(p => {
                         return (
                             <FormWrapper>
-                               <H1> {p.organization}</H1>
+                                <H1> {p.organization}</H1>
+                                <H1> {p.jobTitle}</H1>
+                                <H1> {p.location}</H1>
                             </FormWrapper>
                         )
                     })
@@ -243,7 +245,8 @@ const WorkExperience = ({ dataItems }) => {
 }
 
 const mapState = state => ({
-    dataItems: state.workExperience.dataItems
+    dataItems: state.workExperience.dataItems,
+    shouldDisplay: state.workExperience.shouldDisplay
 })
 
 const mapDispatch = dispatch => {

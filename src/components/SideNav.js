@@ -1,19 +1,37 @@
 import React, { useState } from 'react';
 
+import {PDFDownloadLink} from '@react-pdf/renderer';
+import CreateResume from './CreateResume';
+
 import { useStyletron } from 'baseui';
-import { ArrowUp } from 'baseui/icon';
-import { Button, StyledLoadingSpinnerContainer } from 'baseui/button';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalButton
+} from 'baseui/modal';
+import { Button, StyledLoadingSpinnerContainer, KIND } from 'baseui/button';
 import { Plus, Search } from 'baseui/icon';
 import { Navigation } from 'baseui/side-navigation';
 import { ListItem, ListItemLabel } from 'baseui/list';
-import { useHistory,useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const SideNav = () => {
+
   const [css, theme] = useStyletron();
+
   const history = useHistory();
   const location = useLocation();
 
+  const [isOpen, setOpen] = useState(false);
+
   // const [activeItemId, setActiveItemId] = useState('/overview');
+
+  const handleDisplay = () => {
+    setOpen(false);
+  }
+
   return (
     <ul
       className={css({
@@ -31,18 +49,18 @@ const SideNav = () => {
           }
         ]}
         activeItemId={location.pathname}
-        onChange={({ event,item}) => {
+        onChange={({ event, item }) => {
           // prevent page reload
           event.preventDefault();
           history.push(item.itemId);
         }}
-  
+
         overrides={{
           NavItem: {
             style: ({ $theme }) => {
               return {
                 fontWeight: 'bold',
-                ':hover':{
+                ':hover': {
                   color: $theme.colors.mono800
                 }
               };
@@ -80,7 +98,7 @@ const SideNav = () => {
           }
         ]}
         activeItemId={location.pathname}
-        onChange={({ event,item}) => {
+        onChange={({ event, item }) => {
           // prevent page reload
           event.preventDefault();
           history.push(item.itemId);
@@ -91,7 +109,7 @@ const SideNav = () => {
               return {
                 fontWeight: 'bold',
                 marginTop: '6px',
-                ':hover':{
+                ':hover': {
                   color: $theme.colors.mono800
                 }
               };
@@ -109,6 +127,7 @@ const SideNav = () => {
       <Button
         type='submit'
         endEnhancer={() => <Plus size={22} />}
+        onClick={() => setOpen(s => !s)}
         overrides={{
           BaseButton: {
             style: {
@@ -126,8 +145,54 @@ const SideNav = () => {
           marginBottom: '10px',
         })}
       />
+      <Modal
+        onClose={() => setOpen(false)}
+        overrides={{
+          Root: {
+            style: ({ $theme }) => {
+              return {
 
+              };
+            }
+          }
+        }}
+        isOpen={isOpen}
+        unstable_ModalBackdropScroll
+
+      >
+
+        <ModalHeader>Education</ModalHeader>
+
+        <ModalBody >
+        </ModalBody>
+        <ModalFooter>
+          <ModalButton
+            onClick={handleDisplay}
+            kind={KIND.tertiary}
+          >
+            Preview
+          </ModalButton>
+          <ModalButton
+            onClick={handleDisplay}
+          >
+            <PDFDownloadLink 
+              document={<CreateResume />} 
+              fileName="somename.pdf"
+              style={{
+                textDecoration: "none",
+                color: "#fff",
+                padding: '0',
+                backgroundColor:'grey'
+              }}
+            >
+              {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+            </PDFDownloadLink>
+          </ModalButton>
+
+        </ModalFooter>
+      </Modal>
     </ul>
+
 
   )
 }

@@ -1,7 +1,7 @@
 import {
-    POST_EDUCATION,
-    GET_EDUCATION,
-    DELETE_EDUCATION
+    POST_PROJECT,
+    GET_PROJECT,
+    DELETE_PROJECT
 } from '../actions';
 
 export default (
@@ -12,13 +12,13 @@ export default (
     action
 ) => {
     switch (action.type) {
-        case GET_EDUCATION:
+        case GET_PROJECT:
             return {
                 ...state,
                 shouldDisplay: true,
                 dataItems: action.dataItems
             };
-        case POST_EDUCATION:
+        case POST_PROJECT:
             return {
                 ...state,
                 shouldDisplay: true
