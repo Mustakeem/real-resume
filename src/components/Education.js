@@ -281,9 +281,9 @@ const Education = ({ shouldDisplay, dataItems }) => {
 
             {shouldDisplay && (
                 //👉TODO: Want to hold this component through redux 
-                dataItems.map(p => {
+                dataItems.map((p,index) => {
                     return (
-                        <FormWrapper>
+                        <FormWrapper key={index}>
                             <H1> {p.institute}</H1>
                         </FormWrapper>
                     )

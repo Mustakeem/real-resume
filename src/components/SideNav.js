@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
-import {PDFDownloadLink} from '@react-pdf/renderer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 import CreateResume from './CreateResume';
+
+import { connect, useDispatch } from 'react-redux';
+import { showEducation, showProject, showWorkExperience } from '../store/actions';
 
 import { useStyletron } from 'baseui';
 import {
@@ -17,19 +20,25 @@ import { Navigation } from 'baseui/side-navigation';
 import { ListItem, ListItemLabel } from 'baseui/list';
 import { useHistory, useLocation } from 'react-router-dom';
 
-const SideNav = () => {
+const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
 
   const [css, theme] = useStyletron();
 
   const history = useHistory();
   const location = useLocation();
 
+  //👉 modal
   const [isOpen, setOpen] = useState(false);
 
   // const [activeItemId, setActiveItemId] = useState('/overview');
 
+  const data = [];
   const handleDisplay = () => {
     setOpen(false);
+  }
+
+  const createResumehandler = () => {
+    setOpen(s => !s)
   }
 
   return (
@@ -127,7 +136,7 @@ const SideNav = () => {
       <Button
         type='submit'
         endEnhancer={() => <Plus size={22} />}
-        onClick={() => setOpen(s => !s)}
+        onClick={createResumehandler}
         overrides={{
           BaseButton: {
             style: {
@@ -175,14 +184,20 @@ const SideNav = () => {
           <ModalButton
             onClick={handleDisplay}
           >
-            <PDFDownloadLink 
-              document={<CreateResume />} 
-              fileName="somename.pdf"
+            <PDFDownloadLink
+              document={
+                <CreateResume
+                  educationData={educationDataItems}
+                  projectData={projectsItems}
+                  workData={workDataItems}
+                />
+              }
+              fileName='Resume.pdf'
               style={{
-                textDecoration: "none",
-                color: "#fff",
+                textDecoration: 'none',
+                color: '#fff',
                 padding: '0',
-                backgroundColor:'grey'
+                backgroundColor: 'grey'
               }}
             >
               {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
@@ -197,4 +212,21 @@ const SideNav = () => {
   )
 }
 
-export default SideNav;
+const mapState = state => ({
+  educationDataItems: state.education.dataItems,
+  workDataItems: state.workExperience.dataItems,
+  projectsItems: state.projects.dataItems
+})
+
+const mapDispatch = dispatch => {
+
+  dispatch(showProject())
+  dispatch(showEducation())
+  dispatch(showWorkExperience())
+  return {
+
+  }
+
+}
+
+export default connect(mapState, mapDispatch)(SideNav);
