@@ -40,7 +40,7 @@ export const createWorkExperience = (
                     organization: organization,
                     jobTitle: jobTitle,
                     location: location,
-                    startDate: startDate,
+                    startDate: new Date(startDate),
                     endDate: endDate,
                     isCurrentlyWorking: isCurrentlyWorking,
                     userId: user.uid

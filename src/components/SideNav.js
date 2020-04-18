@@ -39,6 +39,7 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
 
   const createResumehandler = () => {
     setOpen(s => !s)
+    
   }
 
   return (

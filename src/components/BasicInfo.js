@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 
 import { useStyletron } from 'baseui';
-import { Tabs, Tab } from 'baseui/tabs';
 import { FormControl } from 'baseui/form-control';
 import { HeadingMedium, HeadingXXLarge } from 'baseui/typography';
 import { Input } from 'baseui/input';

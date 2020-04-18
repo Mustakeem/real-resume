@@ -5,7 +5,7 @@ import { createWorkExperience, showWorkExperience } from '../store/actions';
 
 import { useStyletron } from 'baseui';
 import { Datepicker, formatDate } from 'baseui/datepicker';
-import { H1 } from 'baseui/typography';
+import { HeadingMedium, LabelLarge, ParagraphLarge } from 'baseui/typography';
 import { Plus, ArrowRight, Delete } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
 import {
@@ -21,7 +21,6 @@ import { Input } from 'baseui/input';
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
 import { Negative } from './NegativeInput';
-import workExperience from '../store/reducers/workExperience';
 
 
 
@@ -43,10 +42,6 @@ const FormWrapper = ({ children }) => {
             {children}
         </div>
     );
-
-};
-
-const Something = (props) => {
 
 };
 
@@ -90,6 +85,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
         setOpen(false);
         // setDisplay(true);
     }
+    
     return (
         <div>
             <FormWrapper>
@@ -107,7 +103,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                         Root: {
                             style: ({ $theme }) => {
                                 return {
-                                    zIndex: '200'
+                                    // zIndex: '200'
                                 };
                             }
                         }
@@ -231,10 +227,36 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                 (
                     dataItems.map(p => {
                         return (
+                            // organization: organization,
+                            // jobTitle: jobTitle,
+                            // location: location,
+                            // startDate: startDate,
+                            // endDate: endDate,
+                            // isCurrentlyWorking: isCurrentlyWorking,
                             <FormWrapper>
-                                <H1> {p.organization}</H1>
-                                <H1> {p.jobTitle}</H1>
-                                <H1> {p.location}</H1>
+                                <HeadingMedium className={css({
+                                    textTransform: 'capitalize'
+                                })}>
+                                    {p.jobTitle}
+                                </HeadingMedium>
+                                <LabelLarge>
+                                    Organization:
+                                </LabelLarge>
+                                <ParagraphLarge>
+                                    {p.organization}
+                                </ParagraphLarge>
+                                <LabelLarge>
+                                    Location:
+                                </LabelLarge>
+                                <ParagraphLarge>
+                                    {p.location}
+                                </ParagraphLarge>
+                                <LabelLarge>
+                                    Start Date:
+                                </LabelLarge>
+                                <ParagraphLarge>
+                                    {p.startDate.toString()}
+                                </ParagraphLarge>
                             </FormWrapper>
                         )
                     })

@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { createProject, showProject } from '../store/actions';
 
 import { useStyletron } from 'baseui';
-import { H1 } from 'baseui/typography';
+import { HeadingMedium,ParagraphLarge, LabelLarge } from 'baseui/typography';
 import { Datepicker, formatDate } from 'baseui/datepicker';
 import { Plus, ArrowRight } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
@@ -149,9 +149,20 @@ const Project = ({ shouldDisplay, dataItems }) => {
                 dataItems.map(p => {
                     return (
                         <FormWrapper>
-                            <H1> {p.projectTitle}</H1>
-                            <H1> {p.bio}</H1>
-                        </FormWrapper>
+                        <HeadingMedium className={css({
+                            textTransform: 'capitalize'
+                        })}>
+                            {p.projectTitle}
+                        </HeadingMedium>
+                        <LabelLarge>
+                            Bio:
+                        </LabelLarge>
+                        <ParagraphLarge>
+                            {p.bio}
+                        </ParagraphLarge>
+
+                    </FormWrapper>
+
                     )
                 })
             )}

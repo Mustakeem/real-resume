@@ -49,7 +49,7 @@ export const socialLinkUpdate = (linkedinUrl, githubUrl, otherUrl) => dispatch =
                     linkedinUrl: linkedinUrl,
                     githubUrl: githubUrl,
                     otherUrl: otherUrl
-                })
+                }, { merge: true })
                     .then(() => {
                         dispatch(postSocialLinks())
                     })

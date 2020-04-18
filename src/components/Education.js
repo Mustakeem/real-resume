@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { createEducation, showEducation } from '../store/actions';
 
 import { useStyletron } from 'baseui';
-import { H1 } from 'baseui/typography';
+import { HeadingMedium,ParagraphLarge, LabelLarge } from 'baseui/typography';
 import { Datepicker, formatDate } from 'baseui/datepicker';
 import { Plus, ArrowRight } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
@@ -89,8 +89,8 @@ const Education = ({ shouldDisplay, dataItems }) => {
             certificateTitle,
             majorCategory,
             GPA,
-            location,
             link,
+            location,
             startDate,
             endDate,
             currentlyPursuing
@@ -100,8 +100,8 @@ const Education = ({ shouldDisplay, dataItems }) => {
             certificateTitle,
             majorCategory,
             GPA,
-            location,
             link,
+            location,
             startDate,
             endDate,
             currentlyPursuing
@@ -126,7 +126,7 @@ const Education = ({ shouldDisplay, dataItems }) => {
                         Root: {
                             style: ({ $theme }) => {
                                 return {
-                                    
+
                                 };
                             }
                         }
@@ -281,11 +281,34 @@ const Education = ({ shouldDisplay, dataItems }) => {
 
             {shouldDisplay && (
                 //👉TODO: Want to hold this component through redux 
-                dataItems.map((p,index) => {
+                dataItems.map((p, index) => {
                     return (
-                        <FormWrapper key={index}>
-                            <H1> {p.institute}</H1>
-                        </FormWrapper>
+                        <FormWrapper>
+                        <HeadingMedium className={css({
+                            textTransform: 'capitalize'
+                        })}>
+                            {p.majorCategory}
+                        </HeadingMedium>
+                        <LabelLarge>
+                            Institute:
+                        </LabelLarge>
+                        <ParagraphLarge>
+                            {p.institute}
+                        </ParagraphLarge>
+                        <LabelLarge>
+                            Location:
+                        </LabelLarge>
+                        <ParagraphLarge>
+                            {p.location}
+                        </ParagraphLarge>
+                        <LabelLarge>
+                            Start Date:
+                        </LabelLarge>
+                        <ParagraphLarge>
+                            {p.startDate.toString()}
+                        </ParagraphLarge>
+                    </FormWrapper>
+
                     )
                 })
             )}
