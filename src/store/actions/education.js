@@ -46,8 +46,8 @@ export const createEducation = (
                     GPA: GPA,
                     link: link,
                     location: location,
-                    startDate: startDate,
-                    endDate: endDate,
+                    startDate: new Date(startDate),
+                    endDate: new Date(endDate),
                     currentlyPursuing: currentlyPursuing,
                     userId: user.uid
                 }, { merge: true })

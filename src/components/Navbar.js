@@ -21,9 +21,10 @@ const Navbar = () => {
             return {
               height: '10vh',
               position:'fixed',
+              zIndex:'1',
               width: '100vw',
-              zIndex: '1',
-              backgroundColor: $theme.colors.mono100
+              border: `solid 2px ${$theme.colors.primaryA}`,
+              backgroundColor: $theme.colors.backgroundPrimary
             };
           }
         }
@@ -33,14 +34,14 @@ const Navbar = () => {
       <NavigationList
         $align={ALIGN.left}
       >
-        <NavigationItem>
-          <Logo height='67' width='74' />
-        </NavigationItem>
+
       </NavigationList>
       <NavigationList $align={ALIGN.center} />
       <NavigationList $align={ALIGN.right}>
         <NavigationItem>
-          <ProfileAvatar />
+          <ProfileAvatar 
+
+          />
         </NavigationItem>
         <NavigationItem>
 

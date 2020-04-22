@@ -1,4 +1,7 @@
 import { myFirebase, db } from '../../firebase/fbConfig';
+import moment from 'moment';
+
+
 
 export const POST_WORK_EXPERIENCE = 'POST_WORK_EXPERIENCE';
 export const GET_WORK_EXPERIENCE = 'GET_WORK_EXPERIENCE';
@@ -41,7 +44,7 @@ export const createWorkExperience = (
                     jobTitle: jobTitle,
                     location: location,
                     startDate: new Date(startDate),
-                    endDate: endDate,
+                    endDate: moment(endDate).isValid() ? new Date(endDate): '',
                     isCurrentlyWorking: isCurrentlyWorking,
                     userId: user.uid
                 }, { merge: true })

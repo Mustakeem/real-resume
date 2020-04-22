@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import moment from 'moment';
+
+
 import { connect, useDispatch } from 'react-redux';
 import { createWorkExperience, showWorkExperience } from '../store/actions';
 
@@ -21,7 +24,8 @@ import { Input } from 'baseui/input';
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
 import { Negative } from './NegativeInput';
-
+import BorderBoxWrapper from './BorderBoxWrapper'
+import Main from './Main'
 
 
 const FormWrapper = ({ children }) => {
@@ -33,10 +37,8 @@ const FormWrapper = ({ children }) => {
                 display: 'flex',
                 flexDirection: 'column',
                 width: '50vw',
-                margin: '15vh 0',
                 height: 'auto',
-                padding: '5% 10%',
-                backgroundColor: theme.colors.mono200
+                // backgroundColor: theme.colors.mono200
             })}
         >
             {children}
@@ -68,7 +70,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
     const [endDate, setEndDate] = useState('');
     const [isCurrentlyWorking, setCurrentlyWorking] = useState(false);
     // const [workExperienceId, setWorkExperienceId] = useState(false);
-
+    
     const state = {
         organization: organization,
         jobTitle: jobTitle,
@@ -77,8 +79,8 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
         endDate: endDate,
         isCurrentlyWorking: isCurrentlyWorking,
     }
-
-
+    
+    
     const handleDisplay = () => {
         const { organization, jobTitle, location, startDate, endDate, isCurrentlyWorking } = state;
         dispatch(createWorkExperience(organization, jobTitle, location, startDate, endDate, isCurrentlyWorking));
@@ -87,7 +89,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
     }
     
     return (
-        <div>
+        <Main>
             <FormWrapper>
                 <Button
                     size={SIZE.Large}
@@ -189,7 +191,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                                 <ArrowRight size={24} />
                             </div>
 
-                            {!isCurrentlyWorking && (
+                            {!isCurrentlyWorking ? (
                                 <div
                                     className={css({
                                         width: '120px',
@@ -208,7 +210,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                                         />
                                     </FormControl>
                                 </div>
-                            )}
+                            ):'Currently working'}
 
                         </div>
                     </ModalBody>
@@ -227,13 +229,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                 (
                     dataItems.map(p => {
                         return (
-                            // organization: organization,
-                            // jobTitle: jobTitle,
-                            // location: location,
-                            // startDate: startDate,
-                            // endDate: endDate,
-                            // isCurrentlyWorking: isCurrentlyWorking,
-                            <FormWrapper>
+                            <BorderBoxWrapper>
                                 <HeadingMedium className={css({
                                     textTransform: 'capitalize'
                                 })}>
@@ -252,17 +248,18 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                                     {p.location}
                                 </ParagraphLarge>
                                 <LabelLarge>
-                                    Start Date:
+                                    Date:
                                 </LabelLarge>
                                 <ParagraphLarge>
-                                    {p.startDate.toString()}
+                                    {moment(p.startDate.seconds * 1000).format('l')}
+                                    {p.endDate ? ' - '+moment(p.endDate.seconds *1000).format('l'):''}
                                 </ParagraphLarge>
-                            </FormWrapper>
+                            </BorderBoxWrapper>
                         )
                     })
                 )
             }
-        </div >
+        </Main >
     )
 }
 

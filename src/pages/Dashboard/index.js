@@ -19,8 +19,7 @@ import Project from '../../components/Project';
 
 
 const itemProps = {
-  // backgroundColor: 'mono200',
-  height: '100vh',
+  // backgroundColor: '',
   display: 'flex',
   // alignItems: 'center',
   justifyContent: 'center',
@@ -34,8 +33,11 @@ const sideNavProps = {
       style: ({ $theme }) => ({
         justifyContent: 'center',
         position: 'fixed',
-        borderRight: `solid 1px ${$theme.colors.mono500}`,
+        height: '100vh',
+        border: `solid 2px ${$theme.colors.primaryA}`,
         marginTop: '0px',
+        backgroundColor: 'white',
+        zIndex: '1',
         width: '15vw',
         flexGrow: 0,
       }),
@@ -63,7 +65,7 @@ const Dashboard = () => {
           {...itemProps}
         >
           <Switch>
-            <Route path='/overview'>
+            <Route exact path='/'>
               <Overview />
             </Route>
             <Route path='/basicInfo'>

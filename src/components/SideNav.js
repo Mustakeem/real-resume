@@ -14,82 +14,56 @@ import {
   ModalFooter,
   ModalButton
 } from 'baseui/modal';
-import { Button, StyledLoadingSpinnerContainer, KIND } from 'baseui/button';
+import { Button, KIND } from 'baseui/button';
 import { Plus, Search } from 'baseui/icon';
 import { Navigation } from 'baseui/side-navigation';
-import { ListItem, ListItemLabel } from 'baseui/list';
+import {HeadingLarge} from 'baseui/typography'
 import { useHistory, useLocation } from 'react-router-dom';
+import Logo from '../assets/Logo';
 
 const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
 
   const [css, theme] = useStyletron();
 
+  //👉 navigation
   const history = useHistory();
   const location = useLocation();
+  const [activeItemId, setActiveItemId] = useState('/');
 
   //👉 modal
   const [isOpen, setOpen] = useState(false);
 
-  // const [activeItemId, setActiveItemId] = useState('/overview');
 
-  const data = [];
   const handleDisplay = () => {
     setOpen(false);
   }
 
   const createResumehandler = () => {
     setOpen(s => !s)
-    
+
   }
 
   return (
     <ul
       className={css({
-        width: '14vw',
-        marginTop: '11vh',
+        width: '12vw',
         paddingLeft: 0,
         paddingRight: 0,
       })}
     >
-      <Navigation
-        items={[
-          {
-            title: 'JobSearch',
-            itemId: '/jobSearch',
-          }
-        ]}
-        activeItemId={location.pathname}
-        onChange={({ event, item }) => {
-          // prevent page reload
-          event.preventDefault();
-          history.push(item.itemId);
-        }}
-
-        overrides={{
-          NavItem: {
-            style: ({ $theme }) => {
-              return {
-                fontWeight: 'bold',
-                ':hover': {
-                  color: $theme.colors.mono800
-                }
-              };
-            }
-          }
-        }}
-      />
       <div
         className={css({
-          borderTop: `1px solid ${theme.colors.mono500}`,
-          marginTop: '10px',
-          marginBottom: '10px',
+          marginBottom: '2vh',
         })}
-      />
+      >
+        <Logo height='67' width='74' />
+      </div>
+
       <Navigation
         items={[
           {
             title: 'Overview',
-            itemId: '/overview',
+            itemId: '/',
             subNav: [
               { title: 'Basic Info', itemId: '/basicInfo' },
               {
@@ -111,6 +85,7 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
         onChange={({ event, item }) => {
           // prevent page reload
           event.preventDefault();
+          setActiveItemId(item.itemId);
           history.push(item.itemId);
         }}
         overrides={{
@@ -118,7 +93,7 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
             style: ({ $theme }) => {
               return {
                 fontWeight: 'bold',
-                marginTop: '6px',
+                marginTop: '2vh',
                 ':hover': {
                   color: $theme.colors.mono800
                 }
@@ -130,7 +105,7 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
       <div
         className={css({
           borderTop: `1px solid ${theme.colors.mono500}`,
-          marginTop: '10px',
+          marginTop: '2vh',
           marginBottom: '10px',
         })}
       />

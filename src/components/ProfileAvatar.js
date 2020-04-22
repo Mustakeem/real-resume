@@ -71,6 +71,13 @@ const ProfileAvatar = () => {
         name="Jane Doe"
         size="scale1200"
         src="https://api.adorable.io/avatars/285/11@adorable.io.png"
+        overrides={{
+          Root: {
+            style: ({$theme}) => ({
+              border: 'solid 2px black'
+            }),
+          },
+        }}
       />
     </Dropdown>
   );
