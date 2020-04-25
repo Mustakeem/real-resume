@@ -4,7 +4,14 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import CreateResume from './CreateResume';
 
 import { connect, useDispatch } from 'react-redux';
-import { showEducation, showProject, showWorkExperience } from '../store/actions';
+import {
+  showEducation,
+  showProject,
+  showWorkExperience,
+  showBasicInfo,
+  showSocialLinks,
+  personalDetails
+} from '../store/actions';
 
 import { useStyletron } from 'baseui';
 import {
@@ -17,7 +24,7 @@ import {
 import { Button, KIND } from 'baseui/button';
 import { Plus, Search } from 'baseui/icon';
 import { Navigation } from 'baseui/side-navigation';
-import {HeadingLarge} from 'baseui/typography'
+import { HeadingLarge } from 'baseui/typography'
 import { useHistory, useLocation } from 'react-router-dom';
 import Logo from '../assets/Logo';
 
@@ -53,11 +60,20 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
     >
       <div
         className={css({
-          marginBottom: '2vh',
+          marginBottom: '4vh',
+          marginLeft: '3.5vw',
         })}
       >
         <Logo height='67' width='74' />
       </div>
+
+      <div
+        className={css({
+          borderTop: `1px solid ${theme.colors.mono500}`,
+          marginTop: '10px',
+          marginBottom: '10px',
+        })}
+      />
 
       <Navigation
         items={[
@@ -93,7 +109,7 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
             style: ({ $theme }) => {
               return {
                 fontWeight: 'bold',
-                marginTop: '2vh',
+                marginTop: '1vh',
                 ':hover': {
                   color: $theme.colors.mono800
                 }

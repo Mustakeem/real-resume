@@ -26,6 +26,7 @@ const deleteProject = () => {
 
 export const createProject = (
     projectTitle,
+    link,
     bio
 ) => dispatch => {
     myFirebase
@@ -34,6 +35,7 @@ export const createProject = (
             if (user) {
                 db.collection('projects').doc(projectTitle).set({
                     projectTitle,
+                    link,
                     bio,
                     userId: user.uid
                 }, { merge: true })

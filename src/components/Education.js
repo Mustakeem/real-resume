@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
+import moment from 'moment';
+
 import { connect, useDispatch } from 'react-redux';
 import { createEducation, showEducation } from '../store/actions';
 
 import { useStyletron } from 'baseui';
-import { HeadingMedium,ParagraphLarge, LabelLarge } from 'baseui/typography';
+import { HeadingMedium, ParagraphLarge, LabelLarge } from 'baseui/typography';
 import { Datepicker, formatDate } from 'baseui/datepicker';
 import { Plus, ArrowRight } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
@@ -20,29 +22,9 @@ import { Input } from 'baseui/input';
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
 import { Negative } from './NegativeInput';
-
-
-
-const FormWrapper = ({ children }) => {
-    const [css, theme] = useStyletron();
-
-    return (
-        <div
-            className={css({
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50vw',
-                margin: '15vh 0',
-                height: 'auto',
-                padding: '5% 10%',
-                backgroundColor: theme.colors.mono200
-            })}
-        >
-            {children}
-        </div>
-    );
-
-};
+import BorderBoxWrapper from './BorderBoxWrapper';
+import Main from './Main';
+import FormWrapper from './FormWrapper';
 
 
 const Education = ({ shouldDisplay, dataItems }) => {
@@ -111,7 +93,7 @@ const Education = ({ shouldDisplay, dataItems }) => {
     }
 
     return (
-        <div>
+        <Main>
             <FormWrapper>
                 <Button
                     size={SIZE.Large}
@@ -246,7 +228,7 @@ const Education = ({ shouldDisplay, dataItems }) => {
                                 <ArrowRight size={24} />
                             </div>
 
-                            {!currentlyPursuing && (
+                            {!currentlyPursuing ? (
                                 <div
                                     className={css({
                                         width: '120px',
@@ -265,7 +247,7 @@ const Education = ({ shouldDisplay, dataItems }) => {
                                         />
                                     </FormControl>
                                 </div>
-                            )}
+                            ) : 'Currently pursuing'}
 
                         </div>
                     </ModalBody>
@@ -283,36 +265,42 @@ const Education = ({ shouldDisplay, dataItems }) => {
                 //👉TODO: Want to hold this component through redux 
                 dataItems.map((p, index) => {
                     return (
-                        <FormWrapper>
-                        <HeadingMedium className={css({
-                            textTransform: 'capitalize'
-                        })}>
-                            {p.majorCategory}
-                        </HeadingMedium>
-                        <LabelLarge>
-                            Institute:
-                        </LabelLarge>
-                        <ParagraphLarge>
-                            {p.institute}
-                        </ParagraphLarge>
-                        <LabelLarge>
-                            Location:
-                        </LabelLarge>
-                        <ParagraphLarge>
-                            {p.location}
-                        </ParagraphLarge>
-                        <LabelLarge>
-                            Start Date:
-                        </LabelLarge>
-                        <ParagraphLarge>
-                            {p.startDate.toString()}
-                        </ParagraphLarge>
-                    </FormWrapper>
-
+                        <BorderBoxWrapper>
+                            <HeadingMedium className={css({
+                                textTransform: 'capitalize'
+                            })}>
+                                {p.majorCategory}
+                            </HeadingMedium>
+                            <LabelLarge>
+                                Institute:
+                            </LabelLarge>
+                            <ParagraphLarge>
+                                {p.institute}
+                            </ParagraphLarge>
+                            <LabelLarge>
+                                Location:
+                            </LabelLarge>
+                            <ParagraphLarge>
+                                {p.location}
+                            </ParagraphLarge>
+                            <LabelLarge>
+                                GPA:
+                            </LabelLarge>
+                            <ParagraphLarge>
+                                {p.GPA}
+                            </ParagraphLarge>
+                            <LabelLarge>
+                                Date:
+                            </LabelLarge>
+                            <ParagraphLarge>
+                                {moment(p.startDate.seconds * 1000).format('l')}
+                                {(p.endDate !== 'null') ? ' - ' + moment(p.endDate.seconds * 1000).format('l') : ''}
+                            </ParagraphLarge>
+                        </BorderBoxWrapper>
                     )
                 })
             )}
-        </div >
+        </Main >
     )
 }
 

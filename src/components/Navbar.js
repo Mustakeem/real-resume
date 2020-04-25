@@ -8,7 +8,6 @@ import {
 } from 'baseui/header-navigation';
 
 
-import Logo from '../assets/Logo';
 import ProfileAvatar from '../components/ProfileAvatar';
 
 const Navbar = () => {

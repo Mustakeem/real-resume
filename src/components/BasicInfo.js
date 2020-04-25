@@ -4,10 +4,11 @@ import { connect, useDispatch } from 'react-redux';
 
 import { useStyletron } from 'baseui';
 import { FormControl } from 'baseui/form-control';
+import { Input, StyledInput } from 'baseui/input';
+import { Plus, ArrowRight, Delete } from 'baseui/icon';
 import { H4, LabelSmall, Label1, Label4, Paragraph1, Label2 } from 'baseui/typography';
-import { Input } from 'baseui/input';
-import { PhoneInput, COUNTRIES } from 'baseui/phone-input';
-import { Button, SIZE } from 'baseui/button';
+import { Tag, VARIANT as TAG_VARIANT } from 'baseui/tag';
+import { Button, SIZE, SHAPE } from 'baseui/button';
 import {
     Modal,
     ModalHeader,
@@ -19,27 +20,67 @@ import {
 import { StyledLink } from 'baseui/link';
 import { Textarea } from 'baseui/textarea';
 
-
-import { Negative } from './NegativeInput';
 import {
+    createSkills,
     showBasicInfo,
     createBasicInfo,
     socialLinkUpdate,
-    showSocialLinks
+    showSocialLinks,
 } from '../store/actions';
+import DisplaySkills from './DisplaySkills';
 import LinkWrapper from './LinkWrapper';
 import DisplayWrapper from './DisplayWrapper';
 import Main from './Main';
 import BorderBoxWrapper from './BorderBoxWrapper';
+import { wait } from '@testing-library/react';
+
+
+//👉 skills input
+const InputReplacement = React.forwardRef(
+    ({ tags, removeTag, ...restProps }, ref) => {
+        const [css] = useStyletron();
+        return (
+            <div
+                className={css({
+                    flex: '1 1 0%',
+                    flexWrap: 'wrap',
+                    display: 'flex',
+                    alignItems: 'center',
+                })}
+            >
+                {tags.map((tag, index) => (
+                    <Tag
+                        variant={TAG_VARIANT.solid}
+                        onActionClick={() => removeTag(tag)}
+                        key={index}
+                    >
+                        {tag}
+                    </Tag>
+                ))}
+                <StyledInput ref={ref} {...restProps} />
+            </div>
+        );
+    },
+);
 
 
 const BasicInfo = ({ socialLinks, basicInfoItems }) => {
+    // const dataItem  = {...dataItems[0]}
+
+    // const skillsTags = dataItem.skillsTags;
+
     const dispatch = useDispatch();
     const [css, theme] = useStyletron();
+
+    //👉 input tags
+    const [value, setValue] = React.useState('');
+    const [tags, setTags] = React.useState([]);
 
     //👉 modal open and close
     const [isOpenLinks, setOpenLinks] = useState(false);
     const [isOpenBasic, setOpenBasic] = useState(false);
+    const [isOpenSkills, setOpenSkills] = useState(false);
+
 
     //👉 set inputs
     const [linkedinUrl, setLinkedinUrl] = useState('');
@@ -54,7 +95,8 @@ const BasicInfo = ({ socialLinks, basicInfoItems }) => {
         githubUrl: githubUrl,
         otherUrl: otherUrl,
         majorCategory: majorCategory,
-        description: description
+        description: description,
+        tags: tags
     }
 
     const handleSubmitLinks = () => {
@@ -67,9 +109,103 @@ const BasicInfo = ({ socialLinks, basicInfoItems }) => {
         const { majorCategory, description } = state;
         dispatch(createBasicInfo(majorCategory, description));
         setOpenBasic(false);
+    };
+
+    const addTag = (tag) => {
+        setTags([...tags, tag]);
+    };
+
+    const removeTag = (tag) => {
+        setTags(tags.filter(t => t !== tag));
+    };
+
+    const handleSubmitSkills = () => {
+        const { tags } = state;
+        dispatch(createSkills(tags));
+        setOpenSkills(false);
+        // console.log(skillsItems);
     }
+
+    const handleKeyDown = event => {
+        switch (event.keyCode) {
+            // Enter
+            case 13: {
+                if (!value) return;
+                addTag(value);
+                setValue('');
+                return;
+            }
+            // Backspace
+            case 8: {
+                if (value || !tags.length) return;
+                removeTag(tags[tags.length - 1]);
+                return;
+            }
+        }
+    };
+
     return (
         <Main>
+            <BorderBoxWrapper>
+                <H4>Add skills</H4>
+                <Button
+                    shape={SHAPE.round}
+                    onClick={() => setOpenSkills(s => !s)}
+                >
+                    <Plus />
+                </Button>
+
+                <Modal
+                    onClose={() => setOpenSkills(false)}
+                    isOpen={isOpenSkills}
+                    overrides={{
+                        Root: {
+                            style: ({ $theme }) => {
+                                return {
+                                    // zIndex: '200'
+                                };
+                            }
+                        }
+                    }}
+                    unstable_ModalBackdropScroll
+                >
+
+                    <ModalHeader>Add Skills</ModalHeader>
+
+                    <ModalBody>
+                        <FormControl
+                            label='Skills'
+                        >
+                            <Input
+                                placeholder={tags.length ? '' : 'Enter A Tag'}
+                                value={value}
+                                onChange={e => setValue(e.currentTarget.value)}
+                                overrides={{
+                                    Input: {
+                                        style: { width: 'auto', flexGrow: 1 },
+                                        component: InputReplacement,
+                                        props: {
+                                            tags: tags,
+                                            removeTag: removeTag,
+                                            onKeyDown: handleKeyDown,
+                                        },
+                                    },
+                                }}
+                            />
+                        </FormControl>
+
+                    </ModalBody>
+                    <ModalFooter>
+                        <ModalButton
+                            onClick={handleSubmitSkills}
+                        >
+                            Done
+                    </ModalButton>
+                    </ModalFooter>
+                </Modal>
+                <DisplaySkills />
+            </BorderBoxWrapper>
+
             <BorderBoxWrapper>
                 <H4>Basic Info</H4>
 
@@ -79,18 +215,13 @@ const BasicInfo = ({ socialLinks, basicInfoItems }) => {
                 <Label1>Description</Label1>
                 <Paragraph1>{basicInfoItems.description}</Paragraph1>
 
-                <div
-                    className={css({
-                        marginBottom: '5vh',
-                    })}
+
+                <Button
+                    onClick={() => setOpenBasic(s => !s)}
+                    size={SIZE.small}
                 >
-                    <Button
-                        onClick={() => setOpenBasic(s => !s)}
-                        size={SIZE.small}
-                    >
-                        Edit
+                    Edit
                     </Button>
-                </div>
 
                 <Modal
                     onClose={() => setOpenBasic(false)}
@@ -161,18 +292,14 @@ const BasicInfo = ({ socialLinks, basicInfoItems }) => {
                         <StyledLink href={socialLinks.otherUrl}>{socialLinks.otherUrl}</StyledLink>
                     </LinkWrapper>
                 </DisplayWrapper>
-                <div
-                    className={css({
-                        marginBottom: '5vh',
-                    })}
+
+                <Button
+                    onClick={() => setOpenLinks(s => !s)}
+                    size={SIZE.small}
                 >
-                    <Button
-                        onClick={() => setOpenLinks(s => !s)}
-                        size={SIZE.small}
-                    >
-                        Edit
+                    Edit
                     </Button>
-                </div>
+
 
                 <Modal
                     onClose={() => setOpenLinks(false)}
@@ -244,7 +371,7 @@ const BasicInfo = ({ socialLinks, basicInfoItems }) => {
 }
 const mapState = state => ({
     socialLinks: state.basicInfo.socialLinks,
-    basicInfoItems: state.basicInfo.basicInfoItems
+    basicInfoItems: state.basicInfo.basicInfoItems,
 })
 const mapDispatch = dispatch => {
     dispatch(showSocialLinks())

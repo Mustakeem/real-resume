@@ -96,9 +96,7 @@ const skillsData = [
   'ReactJs', 'NodeJs', 'ES6 Javascript', 'HTML', 'CSS'
 ];
 
-const softSkillsData = [
-  'Good Communication', 'Team work', 'Problem Solving'
-];
+
 
 const workExperience = [
   {
@@ -113,9 +111,7 @@ const workExperience = [
 
 
 
-
-
-const CreateResume = () => {
+const CreateResume = (props) => {
     return (
         <Document>
             <Page size='A4' style={styles.page}>
@@ -165,37 +161,13 @@ const CreateResume = () => {
                 </View>
               </View>
               
-              <View style={styles.formatSection}>
-              	<Text style={styles.subHeading}>soft Skills</Text>
               
-                <View style={styles.skillsSection}>
-                  {softSkillsData
-                  ? softSkillsData.map((a,index)=>{
-                      return (
-                          <Text key={index} style={styles.skillsSectionItems}>{a}</Text>
-                      )
-                  }): ''}
-                </View>
-              </View>
-              
-              <View style={styles.formatSection}>
-              	<Text style={styles.subHeading}>soft Skills</Text>
-              
-                <View style={styles.skillsSection}>
-                  {softSkillsData
-                  ? softSkillsData.map((a,index)=>{
-                      return (
-                          <Text key={index} style={styles.skillsSectionItems}>{a}</Text>
-                      )
-                  }): ''}
-                </View>
-              </View>
               <View style={styles.formatSection}>
               	<Text style={styles.subHeading}>Work Experience</Text>
               
                 <View style={styles.skillsSection}>
-                  {workExperience
-                  ? workExperience.map((a,index)=>{
+                  {props.workData
+                  ? props.workData.map((a,index)=>{
                       return (
                           <Text key={index} style={styles.skillsSectionItems}>{a.organization}</Text>
                       )
@@ -207,6 +179,5 @@ const CreateResume = () => {
         </Document>
     )
 }
-
 
 export default CreateResume;

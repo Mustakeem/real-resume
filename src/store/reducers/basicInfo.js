@@ -1,4 +1,6 @@
 import {
+    GET_SKILLS,
+    POST_SKILLS,
     GET_PERSONAL_DETAILS,
     POST_SOCIAL_LINKS,
     GET_SOCIAL_LINKS,
@@ -8,13 +10,23 @@ import {
 
 export default (
     state = {
-        details:{},
-        socialLinks:{},
-        basicInfoItems:{}
+        skillsDataItems:{},
+        details: {},
+        socialLinks: {},
+        basicInfoItems: {}
     },
     action
 ) => {
     switch (action.type) {
+        case GET_SKILLS:
+            return {
+                ...state,
+                skillsDataItems: action.skillsDataItems
+            };
+        case POST_SKILLS:
+            return {
+                ...state,
+            };
         case POST_SOCIAL_LINKS:
             return {
                 ...state
@@ -25,16 +37,16 @@ export default (
                 details: action.details
             };
         case GET_SOCIAL_LINKS:
-            return{
+            return {
                 ...state,
                 socialLinks: action.socialLinks
             };
         case POST_BASIC_INFO:
-            return{
+            return {
                 ...state,
             };
         case GET_BASIC_INFO:
-            return{
+            return {
                 ...state,
                 basicInfoItems: action.basicInfoItems
             };

@@ -7,9 +7,9 @@ import { connect, useDispatch } from 'react-redux';
 import { createWorkExperience, showWorkExperience } from '../store/actions';
 
 import { useStyletron } from 'baseui';
-import { Datepicker, formatDate } from 'baseui/datepicker';
+import { Datepicker } from 'baseui/datepicker';
 import { HeadingMedium, LabelLarge, ParagraphLarge } from 'baseui/typography';
-import { Plus, ArrowRight, Delete } from 'baseui/icon'
+import { Plus, ArrowRight } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
 import {
     Modal,
@@ -17,35 +17,16 @@ import {
     ModalBody,
     ModalFooter,
     ModalButton,
-    FocusOnce,
 } from 'baseui/modal';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
 import { Negative } from './NegativeInput';
-import BorderBoxWrapper from './BorderBoxWrapper'
-import Main from './Main'
+import BorderBoxWrapper from './BorderBoxWrapper';
+import Main from './Main';
+import FormWrapper from './FormWrapper';
 
-
-const FormWrapper = ({ children }) => {
-    const [css, theme] = useStyletron();
-
-    return (
-        <div
-            className={css({
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50vw',
-                height: 'auto',
-                // backgroundColor: theme.colors.mono200
-            })}
-        >
-            {children}
-        </div>
-    );
-
-};
 
 
 const WorkExperience = ({ shouldDisplay, dataItems }) => {
@@ -223,7 +204,6 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                     </ModalFooter>
                 </Modal>
             </FormWrapper>
-
             {shouldDisplay &&
                 //👉TODO: Want to hold this component through redux 
                 (
@@ -252,7 +232,7 @@ const WorkExperience = ({ shouldDisplay, dataItems }) => {
                                 </LabelLarge>
                                 <ParagraphLarge>
                                     {moment(p.startDate.seconds * 1000).format('l')}
-                                    {p.endDate ? ' - '+moment(p.endDate.seconds *1000).format('l'):''}
+                                    {(p.endDate !== 'null') ? ' - '+moment(p.endDate.seconds *1000).format('l'):''}
                                 </ParagraphLarge>
                             </BorderBoxWrapper>
                         )

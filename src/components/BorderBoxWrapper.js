@@ -3,13 +3,13 @@ import React from 'react';
 import {useStyletron} from 'baseui';
 
 const BorderBoxWrapper = ({ children }) => {
-    const [css, theme] = useStyletron();
+    const [css] = useStyletron();
     return (
         <div
             className={css({
-                border: `solid 2px ${theme.colors.mono900}`,
-                borderStyle: 'dashed',
-                padding: '0 4vw',
+                border: 'solid 2px black',
+                borderStyle:'dashed',
+                padding: '4vh 4vw',
                 width: '50vw',
                 margin: '5vh 0'
             })}

@@ -39,6 +39,7 @@ export const createEducation = (
         .auth()
         .onAuthStateChanged(user => {
             if (user) {
+                const isValidDate = (endDate) ? (new Date(endDate)) : 'null';
                 db.collection('education').doc(institute).set({
                     institute: institute,
                     certificateTitle: certificateTitle,
@@ -47,7 +48,7 @@ export const createEducation = (
                     link: link,
                     location: location,
                     startDate: new Date(startDate),
-                    endDate: new Date(endDate),
+                    endDate: isValidDate,
                     currentlyPursuing: currentlyPursuing,
                     userId: user.uid
                 }, { merge: true })

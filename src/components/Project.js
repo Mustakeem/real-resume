@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
+import Microlink from '@microlink/react';
+
 import { connect, useDispatch } from 'react-redux';
 import { createProject, showProject } from '../store/actions';
 
 import { useStyletron } from 'baseui';
-import { HeadingMedium,ParagraphLarge, LabelLarge } from 'baseui/typography';
-import { Datepicker, formatDate } from 'baseui/datepicker';
-import { Plus, ArrowRight } from 'baseui/icon'
+import { HeadingMedium, ParagraphLarge, LabelLarge } from 'baseui/typography';
+import { Plus } from 'baseui/icon'
 import { Button, SIZE } from 'baseui/button';
 import {
     Modal,
@@ -21,29 +22,11 @@ import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 import { Textarea } from "baseui/textarea";
 
 import { Negative } from './NegativeInput';
-
-
-
-const FormWrapper = ({ children }) => {
-    const [css, theme] = useStyletron();
-
-    return (
-        <div
-            className={css({
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50vw',
-                margin: '15vh 0',
-                height: 'auto',
-                padding: '5% 10%',
-                backgroundColor: theme.colors.mono200
-            })}
-        >
-            {children}
-        </div>
-    );
-
-};
+import LinkWrapper from './LinkWrapper';
+import FormWrapper from './FormWrapper';
+import DisplayWrapper from './DisplayWrapper';
+import Main from './Main';
+import BorderBoxWrapper from './BorderBoxWrapper';
 
 
 const Project = ({ shouldDisplay, dataItems }) => {
@@ -64,21 +47,23 @@ const Project = ({ shouldDisplay, dataItems }) => {
     //👉 set inputs
     const [projectTitle, setProjectTitle] = useState('');
     const [bio, setBio] = useState('');
+    const [link, setLink] = useState('');
 
     const state = {
         projectTitle: projectTitle,
+        link: link,
         bio: bio
     }
 
     const handleDisplay = () => {
-        const { projectTitle, bio } = state;
-        dispatch(createProject(projectTitle, bio))
+        const { projectTitle, link, bio } = state;
+        dispatch(createProject(projectTitle, link, bio))
         setOpen(false);
         setDisplay(true);
     }
 
     return (
-        <div>
+        <Main>
             <FormWrapper>
                 <Button
                     size={SIZE.Large}
@@ -120,6 +105,19 @@ const Project = ({ shouldDisplay, dataItems }) => {
                             />
                         </FormControl>
                         <FormControl
+                            label='Link'
+                        >
+                            <Input
+                                placeholder='Enter link of your project'
+                                value={link}
+                                onChange={(e) => { setLink(e.target.value) }}
+                                onBlur={() => setIsVisited(true)}
+                                overrides={shouldShowError ? { After: Negative } : {}}
+                                type='url'
+                                required
+                            />
+                        </FormControl>
+                        <FormControl
                             label='Project bio'
                         >
                             <Textarea
@@ -142,31 +140,35 @@ const Project = ({ shouldDisplay, dataItems }) => {
                     </ModalFooter>
                 </Modal>
             </FormWrapper>
-
             {shouldDisplay && (
                 //👉TODO: Want to hold this component through redux 
 
                 dataItems.map(p => {
                     return (
-                        <FormWrapper>
-                        <HeadingMedium className={css({
-                            textTransform: 'capitalize'
-                        })}>
-                            {p.projectTitle}
-                        </HeadingMedium>
-                        <LabelLarge>
-                            Bio:
-                        </LabelLarge>
-                        <ParagraphLarge>
-                            {p.bio}
-                        </ParagraphLarge>
+                        <BorderBoxWrapper>
+                            <HeadingMedium className={css({
+                                textTransform: 'capitalize'
+                            })}>
+                                {p.projectTitle}
+                            </HeadingMedium>
+                            <DisplayWrapper>
+                                <LinkWrapper>
+                                    <Microlink url={p.link} size='normal' />
+                                </LinkWrapper>
+                            </DisplayWrapper>
+                            <LabelLarge>
+                                Bio:
+                             </LabelLarge>
+                            <ParagraphLarge>
+                                {p.bio}
+                            </ParagraphLarge>
 
-                    </FormWrapper>
+                        </BorderBoxWrapper>
 
                     )
                 })
             )}
-        </div >
+        </Main >
     )
 }
 
@@ -181,4 +183,5 @@ const mapDispatch = dispatch => {
 
     }
 }
+
 export default connect(mapState, mapDispatch)(Project);

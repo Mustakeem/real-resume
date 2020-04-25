@@ -1,7 +1,4 @@
 import { myFirebase, db } from '../../firebase/fbConfig';
-import moment from 'moment';
-
-
 
 export const POST_WORK_EXPERIENCE = 'POST_WORK_EXPERIENCE';
 export const GET_WORK_EXPERIENCE = 'GET_WORK_EXPERIENCE';
@@ -39,16 +36,18 @@ export const createWorkExperience = (
         .auth()
         .onAuthStateChanged(user => {
             if (user) {
+                const isValidDate = (endDate) ? (new Date(endDate)) : 'null';
                 db.collection('workExperience').doc(organization).set({
                     organization: organization,
                     jobTitle: jobTitle,
                     location: location,
                     startDate: new Date(startDate),
-                    endDate: moment(endDate).isValid() ? new Date(endDate): '',
+                    endDate:  isValidDate,
                     isCurrentlyWorking: isCurrentlyWorking,
                     userId: user.uid
                 }, { merge: true })
                     .then(() => {
+                        // console.log(isValidDate);
                         dispatch(postWorkExperience())
                     })
                     .catch(error => {
@@ -72,7 +71,6 @@ export const showWorkExperience = () => dispatch => {
                         const dataItems = data.map((dataItem) => {
                             return dataItem
                         });
-                        // console.table(dataItems);
                         return dataItems
                     })
                     .then((dataItems) => {

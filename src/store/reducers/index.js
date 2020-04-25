@@ -5,4 +5,11 @@ import workExperience from './workExperience';
 import education from './education';
 import projects from './projects';
 
-export default combineReducers({ auth, basicInfo, workExperience, education, projects });
+export default combineReducers({
+    auth,
+    basicInfo,
+    workExperience,
+    education,
+    projects
+    
+});
