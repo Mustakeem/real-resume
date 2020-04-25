@@ -168,12 +168,12 @@ const SideNav = ({ personalName, basicInfo, socialLinks,skillsDataItems, educati
         <ModalBody >
         </ModalBody>
         <ModalFooter>
-          <ModalButton
+          {/* <ModalButton
             onClick={handleDisplay}
             kind={KIND.tertiary}
           >
             Preview
-          </ModalButton>
+          </ModalButton> */}
           <ModalButton
             onClick={handleDisplay}
           >
