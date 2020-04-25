@@ -10,6 +10,7 @@ import {
   showWorkExperience,
   showBasicInfo,
   showSocialLinks,
+  showSkills,
   personalDetails
 } from '../store/actions';
 
@@ -28,7 +29,7 @@ import { HeadingLarge } from 'baseui/typography'
 import { useHistory, useLocation } from 'react-router-dom';
 import Logo from '../assets/Logo';
 
-const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
+const SideNav = ({ personalName, basicInfo, socialLinks,skillsDataItems, educationDataItems, workDataItems, projectsItems }) => {
 
   const [css, theme] = useStyletron();
 
@@ -179,6 +180,10 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
             <PDFDownloadLink
               document={
                 <CreateResume
+                  basicInfo={[basicInfo]}
+                  name={[personalName]}
+                  skills={skillsDataItems}
+                  socialLinks={[socialLinks]}
                   educationData={educationDataItems}
                   projectData={projectsItems}
                   workData={workDataItems}
@@ -205,16 +210,23 @@ const SideNav = ({ educationDataItems, workDataItems, projectsItems }) => {
 }
 
 const mapState = state => ({
+  personalName: state.basicInfo.details,
+  basicInfo: state.basicInfo.basicInfoItems,
+  socialLinks: state.basicInfo.socialLinks,
+  skillsDataItems: state.basicInfo.skillsDataItems,
   educationDataItems: state.education.dataItems,
   workDataItems: state.workExperience.dataItems,
-  projectsItems: state.projects.dataItems
+  projectsItems: state.projects.dataItems,
 })
 
 const mapDispatch = dispatch => {
-
+  dispatch(showBasicInfo())
+  dispatch(showSocialLinks())
+  dispatch(showSkills())
+  dispatch(showWorkExperience())
+  dispatch(personalDetails())
   dispatch(showProject())
   dispatch(showEducation())
-  dispatch(showWorkExperience())
   return {
 
   }

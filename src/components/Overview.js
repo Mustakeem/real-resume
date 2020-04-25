@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { connect, useDispatch } from 'react-redux';
-
+import { personalDetails } from '../store/actions'
 import { useStyletron } from 'baseui';
 import {
     Display4,
@@ -12,7 +12,8 @@ import {
     H5,
     DisplaySmall,
     DisplayMedium,
-    DisplayXSmall
+    DisplayXSmall,
+    HeadingSmall
 } from 'baseui/typography';
 
 import Microlink from '@microlink/react';
@@ -63,8 +64,8 @@ const WelcomeDisplaySection = ({ children }) => {
 };
 
 
-const Overview = () => {
-    const [css,theme] = useStyletron();
+const Overview = ({ personalName }) => {
+    const [css, theme] = useStyletron();
 
     //👉 modal open and close
     const [isOpen, setOpen] = useState(false);
@@ -113,15 +114,16 @@ const Overview = () => {
                         flexDirection: 'column',
                     })}
                 >
-                    <DisplayXSmall>Hello,<br />Mustakeem</DisplayXSmall>
-                    <H6>You can have a overview of your projects, skills and ratings. We consider projects based on your skills only</H6>
+                    <DisplayXSmall>Hello,<br />{personalName.firstName}</DisplayXSmall>
+                    <H6>You can generate fill up your details and generate ATS friendly resumes</H6>
                 </div>
                 <Chilling
                     height='360'
                     width='924'
                 />
             </WelcomeDisplaySection>
-                            
+
+            <HeadingSmall>Recommendations</HeadingSmall>
             <DisplayWrapper>
                 <LinkWrapper>
                     <Microlink url='https://www.pluralsight.com' size='large' />
@@ -139,5 +141,16 @@ const Overview = () => {
     );
 }
 
-export default Overview;
+const mapState = state => ({
+    personalName: state.basicInfo.details,
+})
 
+const mapDispatch = dispatch => {
+    dispatch(personalDetails())
+    return {
+
+    }
+
+}
+
+export default connect(mapState, mapDispatch)(Overview);

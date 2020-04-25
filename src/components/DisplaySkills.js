@@ -27,22 +27,35 @@ const Some = ({ children }) => {
 }
 
 const DisplaySkills = ({ skillsDataItems }) => {
-   
+
     const { skillsTags } = skillsDataItems;
 
     return (
         <Some>
-            {skillsTags ? 
+            {skillsTags ?
                 skillsTags.map((tag, index) => (
                     <Tag
                         closeable={false}
                         variant={TAG_VARIANT.solid}
                         key={index}
+                        overrides={{
+                            Root: {
+                                style: ({ $theme }) => {
+                                    return {
+                                        fontWeight: 'bold',
+                                        height: '4vh',
+                                        width: '4vw',
+                                        justifyContent: 'center',
+                                        borderRadius: '40px'
+                                    };
+                                }
+                            }
+                        }}
                     >
                         {tag}
                     </Tag>
                 ))
-             : console.log('nope')}
+                : console.log('nope')}
         </Some>
     )
 }
