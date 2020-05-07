@@ -33,7 +33,7 @@ export const createProject = (
         .auth()
         .onAuthStateChanged(user => {
             if (user) {
-                db.collection('projects').doc(projectTitle).set({
+                db.collection('projects').doc(user.uid).set({
                     projectTitle,
                     link,
                     bio,

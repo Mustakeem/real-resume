@@ -40,7 +40,7 @@ export const createEducation = (
         .onAuthStateChanged(user => {
             if (user) {
                 const isValidDate = (endDate) ? (new Date(endDate)) : 'null';
-                db.collection('education').doc(institute).set({
+                db.collection('education').doc(user.uid).set({
                     institute: institute,
                     certificateTitle: certificateTitle,
                     majorCategory: majorCategory,

@@ -37,7 +37,7 @@ export const createWorkExperience = (
         .onAuthStateChanged(user => {
             if (user) {
                 const isValidDate = (endDate) ? (new Date(endDate)) : 'null';
-                db.collection('workExperience').doc(organization).set({
+                db.collection('workExperience').doc(user.uid).set({
                     organization: organization,
                     jobTitle: jobTitle,
                     location: location,
